@@ -103,6 +103,35 @@
   .shutter{width:58px;height:58px;border-radius:50%;background:var(--marfim);border:4px solid var(--nevoa);margin:0 auto 6px;display:block;cursor:pointer}
   .shl{text-align:center;font-family:"IBM Plex Mono",monospace;font-size:.64rem;color:var(--nevoa)}
   .cres{display:none}.cres.show{display:block;animation:fade .35s ease}
+  .camlabel{cursor:pointer}
+  .camlabel input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+  .photoprev{margin-bottom:14px}
+  .photoprev img{width:100%;max-height:250px;object-fit:cover;border-radius:16px;display:block}
+  .pesobox{display:flex;align-items:center;justify-content:center;gap:14px;background:var(--petroleo-2);border:1px solid var(--linha);border-radius:18px;padding:24px 16px;margin:10px 0 18px}
+  .pesoinput{width:160px;background:none;border:none;color:var(--marfim);font-family:"Fraunces",serif;font-size:2.7rem;font-weight:600;text-align:center;outline:none;-moz-appearance:textfield}
+  .pesoinput::-webkit-outer-spin-button,.pesoinput::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  .pesokg{font-family:"IBM Plex Mono",monospace;font-size:.9rem;color:var(--nevoa)}
+  .pstep{width:48px;height:48px;border-radius:50%;border:1px solid var(--linha);background:var(--painel);color:var(--marfim);font-size:1.5rem;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center;flex:none}
+  .pstep:active{background:var(--sage);color:#06231c}
+  .mealdescinput{width:100%;background:var(--petroleo-2);border:1px solid var(--linha);border-radius:12px;color:var(--marfim);font-family:"Manrope",sans-serif;font-size:.92rem;padding:12px 13px;outline:none;margin-bottom:6px}
+  .mealdescinput:focus{border-color:var(--sage)}
+  .ta{width:100%;min-height:76px;background:var(--petroleo-2);border:1px solid var(--linha);border-radius:12px;color:var(--marfim);font-family:"Manrope",sans-serif;font-size:.92rem;padding:11px 13px;resize:vertical;outline:none;margin-bottom:6px;line-height:1.5}
+  .ta:focus{border-color:var(--mente)}
+  .chips.wrap{flex-wrap:wrap}
+  .chips.wrap button{flex:0 0 auto;min-width:0}
+  .chips.tight button{padding:9px 6px;font-size:.82rem}
+  .chips.mn button.sel{background:var(--mente);color:#171235;border-color:var(--mente)}
+  .shiftrow{display:flex;gap:12px;margin-bottom:4px}
+  .shiftcol{flex:1;min-width:0}
+  .shlab{font-family:"IBM Plex Mono",monospace;font-size:.56rem;letter-spacing:.08em;text-transform:uppercase;color:var(--nevoa);display:block;margin-bottom:6px}
+  .animogrid{display:flex;flex-direction:column;gap:9px}
+  .animorow{display:flex;align-items:baseline;gap:10px}
+  .animorow .ak{font-family:"IBM Plex Mono",monospace;font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;color:var(--nevoa);width:80px;flex:none}
+  .animorow .av{font-family:"Fraunces",serif;font-size:1.15rem;font-weight:600}
+  .animorow .av i{font-style:normal;color:var(--nevoa);margin:0 4px}
+  .animorow .av small{font-size:.6rem;color:var(--nevoa);font-family:"Manrope"}
+  .animorow .at{font-family:"IBM Plex Mono",monospace;font-size:.62rem;margin-left:auto}
+  .animonote{color:var(--nevoa);font-size:.85rem;margin-top:12px;padding-top:11px;border-top:1px solid var(--linha);line-height:1.5}
   .readbox{background:var(--petroleo-2);border:1px solid var(--sage);border-radius:16px;padding:20px;text-align:center;margin-bottom:14px}
   .readbox .rlab{font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sage);margin-bottom:8px}
   .readbox .rval{font-family:"Fraunces",serif;font-size:1.7rem;font-weight:600}.readbox .rval small{font-size:.9rem;color:var(--nevoa);font-family:"Manrope"}
@@ -321,11 +350,11 @@
   :focus-visible{outline:2px solid var(--ouro);outline-offset:2px}
 
   /* ===== modo app (tela cheia no celular) ===== */
-  html,body{height:100%}
-  body{margin:0;padding:0;background:var(--petroleo)}
+  html,body{height:100%;margin:0;padding:0;overflow:hidden}
+  body{background:var(--petroleo)}
   .top,.map{display:none!important}
-  .device{width:100%!important;max-width:none!important;margin:0!important;padding:0!important;background:none!important;border-radius:0!important;box-shadow:none!important}
-  .frame{height:100dvh!important;border-radius:0!important}
+  .device{position:fixed!important;inset:0!important;width:auto!important;max-width:none!important;margin:0!important;padding:0!important;background:var(--petroleo)!important;border-radius:0!important;box-shadow:none!important}
+  .frame{position:absolute!important;inset:0!important;height:auto!important;width:auto!important;border-radius:0!important}
   .island,.statusbar{display:none!important}
   .viewport{inset:calc(env(safe-area-inset-top) + 8px) 0 calc(76px + env(safe-area-inset-bottom)) 0!important}
   .tabbar{height:calc(76px + env(safe-area-inset-bottom))!important;padding-bottom:env(safe-area-inset-bottom)!important}
@@ -429,14 +458,20 @@
         <div class="sl"><div class="slh"><span>Como acordei</span><b id="vA">7</b></div><input type="range" min="1" max="10" value="7" oninput="vA.textContent=this.value" id="rA"><div class="slends"><span>no chão</span><span>renovado</span></div></div>
         <div class="sl"><div class="slh"><span>Energia</span><b id="vE">7</b></div><input type="range" min="1" max="10" value="7" oninput="vE.textContent=this.value" id="rE"><div class="slends"><span>vazio</span><span>a mil</span></div></div>
         <div class="sl"><div class="slh"><span>Horas de sono</span><b id="vS">6,5</b></div><input type="range" min="0" max="12" step="0.5" value="6.5" oninput="vS.textContent=(+this.value).toFixed(1).replace('.',',')" id="rS"></div>
+        <div class="sl mn"><div class="slh"><span>Tristeza</span><b id="vTm">3</b></div><input type="range" min="1" max="10" value="3" oninput="vTm.textContent=this.value" id="rTm"><div class="slends"><span>leve</span><span>intensa</span></div></div>
         <button class="savebtn" onclick="saveManha()">Salvar a manhã</button>
       </div></section>
 
       <section class="screen" id="cam-peso"><div class="pad">
-        <button class="back" onclick="show('fio')">‹ Hoje</button>
-        <div class="ptitle">Foto do peso</div><div class="psub">o app lê o visor</div>
-        <div id="pesoCam"><div class="camview"><span class="brk b1"></span><span class="brk b2"></span><span class="brk b3"></span><span class="brk b4"></span><svg class="cg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="6" width="18" height="14" rx="3"/><circle cx="12" cy="13" r="4"/></svg><div class="ch">Encaixe o visor da balança</div></div><button class="shutter" onclick="shoot('peso')"></button><div class="shl">toque para fotografar</div></div>
-        <div class="cres" id="pesoRes"><div class="readbox"><div class="rlab">Lido da foto</div><div class="rval">115,0<small> kg</small></div><div class="rsub2">semana 1</div></div><div class="capa"><button class="capb" onclick="show('cam-peso');resetCam('peso')">Corrigir</button><button class="capb pri" onclick="savePeso()">Confirmar</button></div></div>
+        <button class="back" onclick="show('fio')">‹ Fio do dia</button>
+        <div class="ptitle">Peso do dia</div><div class="psub">digite a balança de hoje</div>
+        <div class="pesobox">
+          <button class="pstep" onclick="pesoStep(-0.1)" aria-label="menos">–</button>
+          <input id="pesoInput" class="pesoinput" type="number" inputmode="decimal" step="0.1" value="115.0">
+          <span class="pesokg">kg</span>
+          <button class="pstep" onclick="pesoStep(0.1)" aria-label="mais">+</button>
+        </div>
+        <button class="savebtn" onclick="savePeso()">Registrar peso</button>
       </div></section>
 
       <section class="screen" id="confirm-med"><div class="pad">
@@ -449,10 +484,24 @@
       </div></section>
 
       <section class="screen" id="cam-prato"><div class="pad">
-        <button class="back" onclick="show('fio')">‹ Hoje</button>
+        <button class="back" onclick="show('fio')">‹ Fio do dia</button>
         <div class="ptitle">Foto do prato</div><div class="psub" id="pratoSub">almoço</div>
-        <div id="pratoCam"><div class="camview"><span class="brk b1"></span><span class="brk b2"></span><span class="brk b3"></span><span class="brk b4"></span><svg class="cg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg><div class="ch">Enquadre o prato inteiro</div></div><button class="shutter" onclick="shoot('prato')"></button><div class="shl">toque para fotografar</div></div>
-        <div class="cres" id="pratoRes"><div class="readbox"><div class="rlab">Identifiquei</div><div class="rval" id="pratoRead" style="font-size:1.3rem">Frango, arroz e<br>brócolis, salada</div><div class="rsub2">proteína garantida</div></div><div class="capa"><button class="capb" onclick="show('cam-prato');resetCam('prato')">Ajustar</button><button class="capb pri" onclick="savePrato()">Registrar refeição</button></div></div>
+        <div id="pratoCam">
+          <label class="camview camlabel">
+            <input id="pratoFile" type="file" accept="image/*" capture="environment" onchange="onPratoPhoto(event)">
+            <span class="brk b1"></span><span class="brk b2"></span><span class="brk b3"></span><span class="brk b4"></span>
+            <svg class="cg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>
+            <div class="ch">Toque para fotografar o prato</div>
+          </label>
+          <div class="shl">abre a câmera ou a galeria</div>
+        </div>
+        <div class="cres" id="pratoRes">
+          <div class="photoprev" id="pratoPrev"></div>
+          <div class="readbox"><div class="rlab">Sugestão do plano</div><div class="rval" id="pratoRead" style="font-size:1.2rem">Frango, arroz e<br>brócolis, salada</div><div class="rsub2">proteína garantida</div></div>
+          <div class="ddlabel" style="margin:14px 0 8px">O que você comeu de verdade</div>
+          <input id="pratoDesc" class="mealdescinput" type="text" placeholder="ex: frango grelhado, arroz e salada">
+          <div class="capa" style="margin-top:14px"><button class="capb" onclick="retakePrato()">Trocar foto</button><button class="capb pri" onclick="savePrato()">Registrar refeição</button></div>
+        </div>
       </div></section>
 
       <section class="screen" id="confirm-fisio"><div class="pad">
@@ -468,6 +517,7 @@
         <div class="ptitle">Humor</div><div class="psub">como está agora</div>
         <div class="sl mn"><div class="slh"><span>Meu humor</span><b id="vH">7</b></div><input type="range" min="1" max="10" value="7" oninput="vH.textContent=this.value" id="rH"><div class="slends"><span>pra baixo</span><span>ótimo</span></div></div>
         <div class="sl mn"><div class="slh"><span>Ansiedade</span><b id="vAn">3</b></div><input type="range" min="1" max="10" value="3" oninput="vAn.textContent=this.value" id="rAn"><div class="slends"><span>calmo</span><span>no limite</span></div></div>
+        <div class="sl mn"><div class="slh"><span>Tristeza</span><b id="vTn">3</b></div><input type="range" min="1" max="10" value="3" oninput="vTn.textContent=this.value" id="rTn"><div class="slends"><span>leve</span><span>intensa</span></div></div>
         <button class="savebtn mn" onclick="saveHumor()">Salvar</button>
       </div></section>
 
@@ -519,6 +569,8 @@
 
       <section class="screen" id="mente"><div class="pad">
         <div class="h1b">Mente</div><div class="data">humor, ansiedade e a terapia</div>
+        <div class="section-h">Como estou hoje</div>
+        <div class="block mente" id="animoCard"><div class="bb">registre a manhã e a noite para ver seu dia aqui.</div></div>
         <div class="section-h">Resumo da semana</div>
         <div class="twocol">
           <div class="mini"><div class="mk">Ansiedade média</div><div class="mv m">3,1<small style="font-size:.65rem;color:var(--nevoa)">/10</small></div></div>
@@ -531,8 +583,40 @@
         <div class="insight"><b>Treino de força:</b> derruba a ansiedade no mesmo dia.</div>
         <div class="insight a"><b>Confraria:</b> tira sono e sobe a ansiedade no dia seguinte.</div>
         <div class="section-h">Terapia</div>
-        <div class="block mente"><div class="bt">Psicólogo · segunda 17:30</div><div class="bb">Próxima sessão em 6 dias.</div></div>
-        <button class="savebtn mn" style="margin-top:6px" onclick="humorBack='mente';show('reg-humor')">Registrar humor agora</button>
+        <div class="block mente"><div class="bt">Psicólogo · segunda 17:30</div><div class="bb">O registro da sessão vira histórico e cruza com a tua semana.</div></div>
+        <button class="savebtn mn" style="margin-top:6px" onclick="show('reg-terapia')">Registrar a sessão ›</button>
+        <button class="savebtn" style="margin-top:8px;background:var(--painel);color:var(--marfim);border:1px solid var(--linha)" onclick="humorBack='mente';show('reg-humor')">Registrar humor de agora</button>
+        <div class="savemsg" id="menteMsg"></div>
+      </div></section>
+
+      <section class="screen" id="reg-terapia"><div class="pad">
+        <button class="back" onclick="show('mente')">‹ Mente</button>
+        <div class="ptitle">Registro da sessão</div><div class="psub">segunda · psicólogo · um momento seu</div>
+
+        <div class="ddlabel">Como cheguei · como saí</div>
+        <div class="shiftrow">
+          <div class="shiftcol"><span class="shlab">cheguei</span><div class="chips mn tight" id="tChegou"><button onclick="sel(this)">pesado</button><button onclick="sel(this)">neutro</button><button onclick="sel(this)">leve</button></div></div>
+          <div class="shiftcol"><span class="shlab">saí</span><div class="chips mn tight" id="tSai"><button onclick="sel(this)">pesado</button><button onclick="sel(this)">neutro</button><button onclick="sel(this)">leve</button></div></div>
+        </div>
+
+        <div class="ddlabel">O que a sessão mexeu</div>
+        <div class="sl mn"><div class="slh"><span>O quanto me abri</span><b id="vAb">6</b></div><input type="range" min="1" max="10" value="6" oninput="vAb.textContent=this.value" id="tAb"></div>
+        <div class="sl mn"><div class="slh"><span>Intensidade emocional</span><b id="vInt">5</b></div><input type="range" min="1" max="10" value="5" oninput="vInt.textContent=this.value" id="tInt"></div>
+        <div class="sl mn"><div class="slh"><span>Clareza que saí tendo</span><b id="vCla">6</b></div><input type="range" min="1" max="10" value="6" oninput="vCla.textContent=this.value" id="tCla"></div>
+
+        <div class="ddlabel">Emoções que apareceram</div>
+        <div class="chips mn wrap" id="tEmo"><button onclick="selm(this)">medo</button><button onclick="selm(this)">raiva</button><button onclick="selm(this)">tristeza</button><button onclick="selm(this)">vergonha</button><button onclick="selm(this)">culpa</button><button onclick="selm(this)">alívio</button><button onclick="selm(this)">esperança</button><button onclick="selm(this)">calma</button></div>
+
+        <div class="ddlabel">Sobre o que foi</div>
+        <input id="tTema" class="mealdescinput" type="text" placeholder="ex: comida e ansiedade, autocrítica, corpo...">
+
+        <div class="ddlabel">O que ficou comigo</div>
+        <textarea id="tFicou" class="ta" placeholder="a frase, o insight, aquilo que não sai da cabeça"></textarea>
+
+        <div class="ddlabel">O que levo pra semana</div>
+        <textarea id="tLevo" class="ta" placeholder="um combinado, uma prática, uma intenção"></textarea>
+
+        <button class="savebtn mn" onclick="saveTerapia()">Guardar a sessão</button>
       </div></section>
 
       <section class="screen" id="rota"><div class="pad">
@@ -585,7 +669,7 @@ function hoje_iso(){var d=new Date();return d.getFullYear()+'-'+String(d.getMont
 function hora(){var d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
 
 var vp=document.querySelector('.viewport');
-var SEC_OF={home:'home',fio:'home','reg-manha':'home','cam-peso':'home','confirm-med':'home','cam-prato':'home','confirm-fisio':'home','reg-humor':'home','fechar-dia':'home',treino:'treino',sessao:'treino',exdetail:'treino','s-fisio':'treino',nutri:'nutri',mealdetail:'nutri',mente:'mente',rota:'rota'};
+var SEC_OF={home:'home',fio:'home','reg-manha':'home','cam-peso':'home','confirm-med':'home','cam-prato':'home','confirm-fisio':'home','reg-humor':'home','fechar-dia':'home',treino:'treino',sessao:'treino',exdetail:'treino','s-fisio':'treino',nutri:'nutri',mealdetail:'nutri',mente:'mente','reg-terapia':'mente',rota:'rota'};
 function show(id){
   document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active')});
   var t=document.getElementById(id);if(t)t.classList.add('active');
@@ -594,6 +678,7 @@ function show(id){
   ['pesoRes','pratoRes'].forEach(function(r){var el=document.getElementById(r);if(el)el.classList.remove('show')});
   var pc=document.getElementById('pesoCam'),prc=document.getElementById('pratoCam');if(pc)pc.style.display='';if(prc)prc.style.display='';
   if(id==='home')syncHome();
+  if(id==='mente')renderAnimo();
   var fab=document.getElementById('fab');if(fab){var TOP={home:1,treino:1,nutri:1,mente:1,rota:1};fab.classList.toggle('hide',!TOP[id]);}
   if(vp)vp.scrollTop=0;
 }
@@ -620,7 +705,7 @@ var DOW = new Date().getDay(); // 0 dom .. 6 sáb
 var isTue = DOW===2, isThu = DOW===4, isGym = (DOW===1||DOW===3||DOW===5);
 var DEF={
  manha:{t:"07h",c:"sage",ic:"sun",l:"Registro da manhã",s:"como acordei, energia, sono",sc:"reg-manha",go:"abrir registro ›",flab:"Manhã"},
- peso:{t:"08h",c:"sage",ic:"scale",l:"Foto do peso",s:"a balança de hoje",sc:"cam-peso",go:"abrir câmera ›",flab:"Peso"},
+ peso:{t:"08h",c:"sage",ic:"scale",l:"Peso do dia",s:"digite a balança de hoje",sc:"cam-peso",go:"registrar peso ›",flab:"Peso"},
  mounjaro:{t:"09h",c:"med",ic:"med",med:true,l:'Mounjaro <span class="dose">2,5 mg</span>',s:'<span class="medtag">Comando médico</span> · rodízio do local',sc:"confirm-med",go:"registrar aplicação ›",flab:"Mounjaro"},
  almoco:{t:"13h",c:"sage",ic:"plate",l:"Foto do prato · almoço",s:"<b>salmão</b> ou frango, arroz e brócolis",sc:"cam-prato",meal:"almoço",read:"Frango, arroz e<br>brócolis, salada",go:"abrir câmera ›",flab:"Almoço"},
  agua:{t:"dia",c:"azul",ic:"drop",water:true,l:"Água",s:"meta 3 L"},
@@ -695,21 +780,60 @@ function syncHome(){
 }
 function jumpNext(){if(homeNextIndex<0){show('fio');return;}var it=ITEMS[homeNextIndex];if(it&&it.sc){openFlow(homeNextIndex);}else{show('fio');}}
 window.jumpNext=jumpNext;
-function openFlow(i){var it=ITEMS[i];curFlow=i;if(it.sc==='cam-prato'){document.getElementById('pratoSub').textContent=it.meal;document.getElementById('pratoRead').innerHTML=it.read;resetCam('prato');}if(it.sc==='cam-peso')resetCam('peso');if(it.sc==='reg-humor')humorBack='fio';show(it.sc);}
+function openFlow(i){var it=ITEMS[i];curFlow=i;if(it.sc==='cam-prato'){document.getElementById('pratoSub').textContent=it.meal;document.getElementById('pratoRead').innerHTML=it.read;retakePrato();}if(it.sc==='reg-humor')humorBack='fio';show(it.sc);}
 window.openFlow=openFlow;
 function doneFlow(){if(curFlow>=0){rows[curFlow].classList.add('done');curFlow=-1;}refreshHoje();show('fio');}
 var copos=0;
 function water(d){copos=Math.max(0,Math.min(12,copos+d));var L=copos*0.25;document.getElementById('aTxt').textContent=L.toFixed(1).replace('.',',')+' L';document.querySelectorAll('#pips .pip').forEach(function(p,idx){p.classList.toggle('on',idx<copos)});var wrow=document.querySelector('#tl .pips').closest('.row');if(copos>=12){wrow.classList.add('done');saveRecord('Agua',{data:hoje_iso(),litros:L});}else wrow.classList.remove('done');refreshHoje();}
 window.water=water;
 
-function saveManha(){saveRecord('Manha',{data:hoje_iso(),como_acordei:+rA.value,energia:+rE.value,sono_horas:+rS.value});flash('Manhã salva na planilha.');doneFlow();}
-function savePeso(){saveRecord('Peso',{data:hoje_iso(),peso_kg:115.0,fonte:'foto'});flash('Peso gravado.');doneFlow();}
+function saveManha(){var t=parseInt((document.getElementById('rTm')||{}).value,10);if(isNaN(t))t=0;saveRecord('Manha',{data:hoje_iso(),como_acordei:+rA.value,energia:+rE.value,sono_horas:+rS.value});saveRecord('Animo',{data:hoje_iso(),momento:'manha',tristeza:t});saveDayField({tManha:t,energia:+rE.value,sono:+rS.value,acordei:+rA.value});flash('Manhã salva na planilha.');doneFlow();}
+function savePeso(){var el=document.getElementById('pesoInput');var v=parseFloat((el&&el.value||'').replace(',','.'));if(isNaN(v)){flash('Digite um peso válido.');return;}saveRecord('Peso',{data:hoje_iso(),peso_kg:v,fonte:'manual'});flash('Peso gravado.');doneFlow();}
 function saveMed(){var l=document.querySelector('#medChips .sel');saveRecord('Mounjaro',{data:hoje_iso(),dose_mg:2.5,local:l?l.textContent:''});flash('Aplicação registrada.');doneFlow();}
-function savePrato(){var it=ITEMS[curFlow]||{};saveRecord('Refeicoes',{data:hoje_iso(),hora:hora(),refeicao:it.meal||'',descricao:'',proteina_ok:true});flash('Refeição registrada.');doneFlow();}
+function savePrato(){var it=ITEMS[curFlow]||{};var dd=document.getElementById('pratoDesc');var sub=document.getElementById('pratoSub');saveRecord('Refeicoes',{data:hoje_iso(),hora:hora(),refeicao:it.meal||(sub&&sub.textContent)||'',descricao:(dd&&dd.value||'').trim(),proteina_ok:true});flash('Refeição registrada.');doneFlow();}
 function saveFisio(){var s=document.querySelector('#fisChips .sel');saveRecord('Treino',{data:hoje_iso(),tipo:'fisio',status:s?s.textContent:'',notas:''});flash('Fisio fechada.');doneFlow();}
-function saveHumor(){saveRecord('Humor',{data:hoje_iso(),hora:hora(),humor:+rH.value,ansiedade:+rAn.value});if(humorBack==='mente'){show('mente');}else{flash('Humor registrado.');doneFlow();}}
+function saveHumor(){var t=parseInt((document.getElementById('rTn')||{}).value,10);if(isNaN(t))t=0;saveRecord('Humor',{data:hoje_iso(),hora:hora(),humor:+rH.value,ansiedade:+rAn.value});saveRecord('Animo',{data:hoje_iso(),momento:'noite',tristeza:t});saveDayField({tNoite:t,humor:+rH.value,ansiedade:+rAn.value});if(humorBack==='mente'){renderAnimo();show('mente');}else{flash('Humor registrado.');doneFlow();}}
 function saveFechar(){flash('Dia fechado.');doneFlow();}
 window.saveManha=saveManha;window.savePeso=savePeso;window.saveMed=saveMed;window.savePrato=savePrato;window.saveFisio=saveFisio;window.saveHumor=saveHumor;window.saveFechar=saveFechar;
+function pesoStep(d){var el=document.getElementById('pesoInput');var v=parseFloat((el.value||'0').replace(',','.'))||0;el.value=(v+d).toFixed(1);}
+function onPratoPhoto(e){var f=e.target.files&&e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(){var p=document.getElementById('pratoPrev');if(p)p.innerHTML='<img alt="prato" src="'+r.result+'">';var c=document.getElementById('pratoCam');if(c)c.style.display='none';var res=document.getElementById('pratoRes');if(res)res.classList.add('show');};r.readAsDataURL(f);}
+function retakePrato(){var res=document.getElementById('pratoRes');if(res)res.classList.remove('show');var c=document.getElementById('pratoCam');if(c)c.style.display='';var fi=document.getElementById('pratoFile');if(fi)fi.value='';var p=document.getElementById('pratoPrev');if(p)p.innerHTML='';}
+function clearPratoDesc(){var d=document.getElementById('pratoDesc');if(d)d.value='';}
+window.pesoStep=pesoStep;window.onPratoPhoto=onPratoPhoto;window.retakePrato=retakePrato;window.clearPratoDesc=clearPratoDesc;
+function selm(b){b.classList.toggle('sel');}
+window.selm=selm;
+function flashMente(m){var el=document.getElementById('menteMsg');if(el){el.textContent=m;setTimeout(function(){el.textContent='';},2600);}}
+function saveTerapia(){
+  function one(id){var e=document.querySelector('#'+id+' .sel');return e?e.textContent:'';}
+  function many(id){return Array.prototype.map.call(document.querySelectorAll('#'+id+' .sel'),function(b){return b.textContent;}).join(', ');}
+  function v(id){var e=document.getElementById(id);return e?e.value:'';}
+  saveRecord('Terapia',{data:hoje_iso(),cheguei:one('tChegou'),sai:one('tSai'),abertura:+v('tAb'),intensidade:+v('tInt'),clareza:+v('tCla'),emocoes:many('tEmo'),tema:v('tTema').trim(),ficou:v('tFicou').trim(),levo:v('tLevo').trim()});
+  flashMente('Sessão guardada.');show('mente');
+}
+window.saveTerapia=saveTerapia;
+function lsGet(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch(e){return d;}}
+function lsSet(k,val){try{localStorage.setItem(k,JSON.stringify(val));}catch(e){}}
+function dayData(){return lsGet('p85day:'+hoje_iso(),{});}
+function saveDayField(o){var d=dayData();for(var k in o)d[k]=o[k];lsSet('p85day:'+hoje_iso(),d);}
+window.saveDayField=saveDayField;
+function renderAnimo(){
+  var el=document.getElementById('animoCard');if(!el)return;
+  var d=dayData();var has=function(x){return typeof d[x]==='number';};
+  if(!has('tManha')&&!has('tNoite')&&!has('humor')&&!has('ansiedade')){el.innerHTML='<div class="bb">registre a manhã e a noite para ver seu dia aqui.</div>';return;}
+  var rows='';
+  if(has('tManha')||has('tNoite')){
+    var a=has('tManha')?d.tManha:'–',b=has('tNoite')?d.tNoite:'–',arrow='',col='var(--nevoa)';
+    if(has('tManha')&&has('tNoite')){var dl=d.tNoite-d.tManha;if(dl<=-1){arrow='aliviou';col='var(--sage)';}else if(dl>=1){arrow='pesou';col='var(--mente)';}else{arrow='estável';}}
+    rows+='<div class="animorow"><span class="ak">Tristeza</span><span class="av">'+a+' <i>→</i> '+b+'</span><span class="at" style="color:'+col+'">'+arrow+'</span></div>';
+  }
+  if(has('humor'))rows+='<div class="animorow"><span class="ak">Humor</span><span class="av">'+d.humor+'<small>/10</small></span><span class="at"></span></div>';
+  if(has('ansiedade'))rows+='<div class="animorow"><span class="ak">Ansiedade</span><span class="av">'+d.ansiedade+'<small>/10</small></span><span class="at"></span></div>';
+  var pesado=(has('tNoite')&&d.tNoite>=7)||(has('humor')&&d.humor<=3);
+  var leve=(has('tNoite')&&d.tNoite<=3)&&(!has('humor')||d.humor>=7);
+  var note=pesado?'Dia mais pesado. Seja gentil consigo, e vale levar isso pra terapia.':(leve?'Dia mais leve. Bom te ver assim.':'Um dia comum. Está tudo bem não ser sempre 10.');
+  el.innerHTML='<div class="animogrid">'+rows+'</div><div class="animonote">'+note+'</div>';
+}
+window.renderAnimo=renderAnimo;
 var humorBack='fio';
 
 var DUMB='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5 17.5 17.5M4 8l-1 1 3 3M8 4l-1 1M20 16l1-1-3-3M16 20l1-1"/></svg>';
@@ -805,7 +929,7 @@ function openMeal(key){var m=MEALS[key];
  show('mealdetail');
 }
 window.openMeal=openMeal;
-function openPratoFromMeal(key){curFlow=-1;document.getElementById('pratoSub').textContent=(key==='almoco'?'almoço':(key==='jantar'?'janta':key));document.getElementById('pratoRead').innerHTML='Refeição do plano';resetCam('prato');show('cam-prato');}
+function openPratoFromMeal(key){curFlow=-1;document.getElementById('pratoSub').textContent=(key==='almoco'?'almoço':(key==='jantar'?'janta':key));document.getElementById('pratoRead').innerHTML='Refeição do plano';retakePrato();show('cam-prato');}
 window.openPratoFromMeal=openPratoFromMeal;
 
 var RM=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
