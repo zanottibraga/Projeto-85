@@ -1,5 +1,5 @@
 /* Projeto 85 — service worker */
-var CACHE = 'p85-v5';
+var CACHE = 'p85-v9';
 var ASSETS = [
   './',
   './index.html',
